@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>All songs</title>
+
+    <link rel="stylesheet" href="/globalstyles.css/"/>
+
+</head>
+<body>
+
+    <div id="wrapper">
+
+        <h3>All songs</h3>
+
+        <table id="list">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Artist</th>
+                    <th>Album</th>
+                    <th>Subgenre</th>
+                    <th>Genre</th>
+                </tr>
+            </thead>
+
+            <tr th:each=" Song : ${songList}">
+                <td th:text="${Song.name}"></td>
+                <td th:text="${Song.artist}"></td>
+                <td th:text="${Song.album}"></td>
+                <td th:text="${Song.subgenre}"></td>
+                <td th:text="${Song.subgenre.mainGenre}"></td>
+            </tr>
+        </table>
+
+    </div>
+
+</body>
+</html>

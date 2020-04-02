@@ -1,5 +1,7 @@
 package hh.swd20.harjtyo.musicrepo.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -10,6 +12,7 @@ public class Subgenre {
 
     //A genre can have multiple subgenres
     @ManyToOne
+    @JoinColumn
     private Genre mainGenre;
 
     //One subgenre can have multiple songs

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Add a title</title>
+
+    <link rel="stylesheet" href="/globalstyles.css/"/>
+
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+</head>
+<body>
+
+<div id="wrapper">
+
+    <h3>Add a title</h3>
+
+    <form th:object="${song}" th:action="@{save}" action="#" method="post">
+
+        <div>
+        <label for="title">Title</label><input type="text" id="title" th:field="*{name}">
+        </div>
+
+        <div>
+        <label for="artist">Artist</label><input type="text" id="artist" th:field="*{artist}">
+        </div>
+
+        <div>
+        <label for="album">Album</label><input type="text" id="album" th:field="*{album}">
+        </div>
+
+        <div>
+            <select id="genre" th:field="*{genre}" onclick="selectionDone()">
+                <option value="Choose">Choose the genre</option>
+                <option th:each="mainGenre : ${genres}"
+                        th:value="${mainGenre.genreId}"
+                        th:text="${mainGenre.genreName}"></option>
+            </select>
+            <label for="genre">Genre</label>
+        </div>
+
+        <div>
+            <select id="subgenre" th:field="*{subgenre}">
+                <option value="Choose">Choose the subgenre</option>
+            </select>
+            <label for="subgenre">Subgenre</label>
+        </div>
+
+        <button type="submit">Save the title</button>
+
+    </form>
+
+</div>
+
+</body>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    let genres = /*[[${genres}]]*/ 'genres';
+    let subgenres = /*[[${subgenres}]]*/ 'genres';
+
+    console.log(genres);
+    console.log(subgenres);
+
+    $("select#genre").change(function () {
+        var selectedGenre = $(this).children("option:selected").val();
+        console.log(selectedGenre);
+
+        $('#subgenre').find('option').not(':first').remove();
+
+        for (let o=0; o<subgenres.length; o++) {
+            var subgenreId = subgenres[o].mainGenre.genreId;
+            console.log(subgenreId);
+
+            if (subgenreId == selectedGenre) {
+                $('#subgenre').append($('<option></option>').val(subgenres[o].subgenreId).html(subgenres[o].subgenreName));
+            }
+        }
+    });
+    /*]]>*/
+
+</script>
+</html>

@@ -1,5 +1,7 @@
 package hh.swd20.harjtyo.musicrepo.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -9,7 +11,14 @@ public class Song {
 
     //A subgenre can have multiple songs
     @ManyToOne
+    @JsonIgnore
+    @JoinColumn
     private Subgenre subgenre;
+
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn
+    private Genre genre;
 
     //Automatically generating iterating id values
     @Id
@@ -21,6 +30,22 @@ public class Song {
         this.artist = artist;
         this.album = album;
         this.subgenre = subgenre;
+        this.genre = subgenre.getMainGenre();
+    }
+
+    public Song (String name, String artist, String album, Genre genre) {
+        this.name = name;
+        this.artist = artist;
+        this.album = album;
+        this.genre = genre;
+    }
+
+    public Genre getGenre() {
+        return genre;
+    }
+
+    public void setGenre(Genre genre) {
+        this.genre = genre;
     }
 
     public Song () {

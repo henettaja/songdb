@@ -32,7 +32,7 @@ public class SongController {
     }
 
     //Routing endpoint /addsong to addsong.html thymeleaf template in /resources/templates/
-    @RequestMapping(value = "/addsong", method = RequestMethod.GET)
+    @RequestMapping(value = "/addsong", method = RequestMethod.GET) //Using GET method
     public String addSong (Model model) {
         model.addAttribute("song", new Song());
         model.addAttribute("subgenres", subgenreRepository.findAll());
@@ -41,8 +41,8 @@ public class SongController {
         return "addsong"; //addsong.html
     }
 
-    //Endpoing /save saves the song to the database and redirects to booklist.html
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    //Endpoing /save saves the song to the database and redirects to /booklist endpoint
+    @RequestMapping(value = "/save", method = RequestMethod.POST) //Using POST method
     public String saveSong (Song song) {
         songRepository.save(song);
 

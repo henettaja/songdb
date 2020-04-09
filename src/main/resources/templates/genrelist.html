@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>All genres</title>
+
+    <link rel="stylesheet" href="/globalstyles.css/"/>
+
+</head>
+<body>
+
+<div id="wrapper">
+
+    <h3>Genres</h3>
+
+    <table class="list">
+        <thead>
+        <tr>
+            <th>Genre ID</th>
+            <th>Genre name</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+
+        <tr th:each=" genre : ${genreList}">
+            <td th:text="${genre.genreId}"></td>
+            <td th:text="${genre.genreName}"></td>
+            <td><a th:href="@{/deletegenre/{id}(id=${genre.genreId})}">Delete</a></td>
+        </tr>
+    </table>
+
+    <h3>Subgenres</h3>
+
+    <table class="list">
+
+        <thead>
+        <tr>
+            <th>Subgenre ID</th>
+            <th>Subgenre name</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+
+        <tr th:each=" subgenre : ${subgenreList}">
+            <td th:text="${subgenre.subgenreId}"></td>
+            <td th:text="${subgenre.subgenreName}"></td>
+            <td><a th:href="@{/deletesubgenre/{id}(id=${subgenre.subgenreId})}">Delete</a></td>
+        </tr>
+
+    </table>
+
+    <a href="/addgenre">Add a new genre</a>
+
+    <a>Add a new subgenre (Under progress)</a>
+
+</div>
+
+</body>
+</html>

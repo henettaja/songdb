@@ -3,33 +3,36 @@
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
-    <title>Add a title</title>
+    <title>Edit title</title>
 
-    <link rel="stylesheet" href="/globalstyles.css/"/>
+    <link rel="stylesheet" href="globalstyles.css">
 
-    <script
+    <script th:inline="javascript"
             src="https://code.jquery.com/jquery-3.4.1.min.js"
             integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-            crossorigin="anonymous"></script>
+            crossorigin="anonymous">
+    </script>
 </head>
 <body>
 
 <div id="wrapper">
 
-    <h3>Add a title</h3>
+    <h3>Edit title</h3>
 
-    <form th:object="${song}" th:action="@{savesong}" action="#" method="post">
+    <form th:object="${song}" th:action="@{../savesong}" action="#" method="post">
+
+        <input type="hidden" th:field="*{songId}"> <br>
 
         <div>
-        <label for="title">Title</label><input type="text" id="title" th:field="*{name}">
+            <label for="title">Title</label><input type="text" id="title" th:field="*{name}">
         </div>
 
         <div>
-        <label for="artist">Artist</label><input type="text" id="artist" th:field="*{artist}">
+            <label for="artist">Artist</label><input type="text" id="artist" th:field="*{artist}">
         </div>
 
         <div>
-        <label for="album">Album</label><input type="text" id="album" th:field="*{album}">
+            <label for="album">Album</label><input type="text" id="album" th:field="*{album}">
         </div>
 
         <div>
@@ -45,6 +48,9 @@
         <div>
             <select id="subgenre" th:field="*{subgenre}">
                 <option value="">Choose the subgenre</option>
+                <option th:each="subgenre : ${subgenres}"
+                        th:value="${subgenre.subgenreId}"
+                        th:text="${subgenre.subgenreName}"></option>
             </select>
             <label for="subgenre">Subgenre</label>
         </div>
@@ -67,21 +73,25 @@
     console.log("Found subgenres: ");
     console.log(subgenres);
 
-    function filtersubgenre() {
-        var selectedGenreId =  $("select#genre").children("option:selected").val();
-        console.log("Selected genre: " + selectedGenreId);
+    let selectSubgenreElement = $('#subgenre');
 
-        $('#subgenre').find('option').not(':first').remove();
+    function filtersubgenre () {
+        var selectedGenre =  $("select#genre").children("option:selected").val();
+        console.log("Genre currently selected: " + selectedGenre);
+
+        selectSubgenreElement.find('option').not(':first').remove();
 
         for (let o=0; o<subgenres.length; o++) {
-            var subgenreId = subgenres[o].mainGenre.genreId;
+            var subgenreparentId = subgenres[o].mainGenre.genreId;
 
-            if (subgenreId == selectedGenreId) {
+            if (subgenreparentId == selectedGenre) {
                 console.log("Main genre matched with these subgenres: " + subgenres[o].subgenreName);
-                $('#subgenre').append($('<option></option>').val(subgenres[o].subgenreId).html(subgenres[o].subgenreName));
+                selectSubgenreElement.append($('<option></option>').val(subgenres[o].subgenreId).html(subgenres[o].subgenreName));
             }
         }
     }
+
+    $(filtersubgenre);
 
     $("select#genre").change(filtersubgenre);
 

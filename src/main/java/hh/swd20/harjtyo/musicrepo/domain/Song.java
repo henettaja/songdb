@@ -1,6 +1,8 @@
 package hh.swd20.harjtyo.musicrepo.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 
@@ -11,12 +13,12 @@ public class Song {
 
     //A subgenre can have multiple songs
     @ManyToOne
-    @JsonIgnore
+    @JsonManagedReference
     @JoinColumn
     private Subgenre subgenre;
 
     @ManyToOne
-    @JsonIgnore
+    @JsonManagedReference
     @JoinColumn
     private Genre genre;
 
@@ -83,11 +85,11 @@ public class Song {
         this.subgenre = subgenre;
     }
 
-    public Long getId() {
+    public Long getSongId() {
         return songId;
     }
 
-    public void setId(Long songId) {
+    public void setSongId(Long songId) {
         this.songId = songId;
     }
 }

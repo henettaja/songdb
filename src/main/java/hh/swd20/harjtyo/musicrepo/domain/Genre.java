@@ -1,5 +1,8 @@
 package hh.swd20.harjtyo.musicrepo.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -9,8 +12,14 @@ public class Genre {
     private String genreName;
 
     //A genre can have multiple subgenres
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "mainGenre")
+    @JsonBackReference
     private List<Subgenre> subgenres;
+
+    //A genre can have multiple songs
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "genre")
+    @JsonBackReference
+    private List<Song> songs;
 
     //Automatically generating iterating id values
     @Id

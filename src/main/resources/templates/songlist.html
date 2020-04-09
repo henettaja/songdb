@@ -14,7 +14,7 @@
 
         <h3>All songs</h3>
 
-        <table id="list">
+        <table class="list">
             <thead>
                 <tr>
                     <th>Title</th>
@@ -22,6 +22,7 @@
                     <th>Album</th>
                     <th>Subgenre</th>
                     <th>Genre</th>
+                    <th colspan="2" style="text-align: center">Actions</th>
                 </tr>
             </thead>
 
@@ -31,6 +32,8 @@
                 <td th:text="${Song.album}"></td>
                 <td th:text="${Song.subgenre}"></td>
                 <td th:text="${Song.genre}"></td>
+                <td><a th:href="@{/editsong/{id}(id=${Song.songId})}">Edit</a></td>
+                <td><a th:href="@{/deletesong/{id}(id=${Song.songId})}">Delete</a></td>
             </tr>
         </table>
 

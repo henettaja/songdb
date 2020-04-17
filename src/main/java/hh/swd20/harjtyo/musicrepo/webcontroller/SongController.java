@@ -7,9 +7,13 @@ import hh.swd20.harjtyo.musicrepo.domain.SubgenreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.validation.Valid;
 
 @Controller
 public class SongController {
@@ -22,6 +26,12 @@ public class SongController {
 
     @Autowired
     private GenreRepository genreRepository;
+
+    @RequestMapping(value = "/index", method = RequestMethod.GET) //Using GET method
+    public String index () {
+
+        return "index"; //songlist.html
+    }
 
     //Routing endpoint /songlist to songlist.html thymeleaf template in /resources/templates/
     //The endpoint basically calls this method
@@ -48,8 +58,13 @@ public class SongController {
     //Endpoing /save saves the song to the database and redirects to /booklist endpoint
     //The endpoint basically calls this method
     @RequestMapping(value = "/savesong", method = RequestMethod.POST) //Using POST method
-    public String saveSong (Song song) {
+    public String saveSong (@Valid Song song, BindingResult bindingResult, Model model) {
 
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("genres",genreRepository.findAll());
+            model.addAttribute("subgenres", subgenreRepository.findAll());
+            return "/addsong";
+        }
         songRepository.save(song);
 
         return "redirect:/songlist"; //Redirects to /songlist endpoint and calls the songList method
@@ -61,7 +76,7 @@ public class SongController {
 
         songRepository.deleteById(songId);
 
-        return "redirect:../songlist"; //Redirects to /songlist endpoint and calls the songList method
+        return "redirect:/songlist"; //Redirects to /songlist endpoint and calls the songList method
     }
 
     //The endpoint basically calls this method
@@ -76,12 +91,19 @@ public class SongController {
     }
 
     //The endpoint basically calls this method
-    @RequestMapping(value = "/updatesong/{id}", method = RequestMethod.POST)
-    public String updatesong (@PathVariable("id") Long songId, Song song) {
+    @RequestMapping(value = "/updatesong", method = RequestMethod.POST) //Using POST method
+    public String updateSong (@Valid Song song, BindingResult bindingResult, RedirectAttributes attributes, Model model) {
 
+        attributes.addAttribute("songId", song.getSongId());
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("genres",genreRepository.findAll());
+            model.addAttribute("subgenres", subgenreRepository.findAll());
+            return "/editsong";
+        }
         songRepository.save(song);
 
-        return "redirect:../songlist"; //Redirects to /songlist endpoint and calls the songList method
+        return "redirect:/songlist"; //Redirects to /songlist endpoint and calls the songList method
     }
 
 }

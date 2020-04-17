@@ -6,9 +6,12 @@ import hh.swd20.harjtyo.musicrepo.domain.SubgenreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.validation.Valid;
 
 @Controller
 public class GenreController {
@@ -43,8 +46,14 @@ public class GenreController {
 
     //The endpoint basically calls this method
     @RequestMapping(value = "/savegenre", method = RequestMethod.POST)
-    public String saveGenre (Genre genre) {
+    public String saveGenre (@Valid Genre genre, BindingResult bindingResult) {
 
+        if (bindingResult.hasErrors()) {
+
+            System.out.println(bindingResult);
+
+            return "/addgenre"; //Redirects back /addgenre endpoint and calls the addGenre method if form contains errors
+        }
         genreRepository.save(genre);
 
         return "redirect:genrelist"; //Redirects to /genrelist endpoint and calls the genreList method

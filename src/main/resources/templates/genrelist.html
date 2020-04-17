@@ -5,59 +5,93 @@
     <meta charset="UTF-8">
     <title>All genres</title>
 
-    <link rel="stylesheet" href="/globalstyles.css/"/>
-    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.red-amber.min.css" />
+    <link rel="stylesheet" href="/genrestyles.css/"/>
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.red-amber.min.css"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
 
     <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 </head>
 <body>
 
-<div id="wrapper">
+<!-- Always shows a header, even in smaller screens. -->
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
+            <!-- Title -->
+            <span class="mdl-layout-title">Song database app</span>
+            <!-- Add spacer, to align navigation to the right -->
+            <div class="mdl-layout-spacer"></div>
+        </div>
+    </header>
+    <div class="mdl-layout__drawer">
+        <span class="mdl-layout-title">Menu</span>
+        <nav class="mdl-navigation">
+            <a class="mdl-navigation__link" href="/index">Home page</a>
+            <a class="mdl-navigation__link" href="/genrelist">Genres</a>
+            <a class="mdl-navigation__link" href="/songlist">Songs</a>
+        </nav>
+    </div>
+    <main class="mdl-layout__content">
+        <div class="page-content">
 
-    <h3>Genres</h3>
+            <div id="wrapper">
 
-    <table class="list">
-        <thead>
-        <tr>
-            <th>Genre ID</th>
-            <th>Genre name</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
+                <div style="width: 50%; float: left">
 
-        <tr th:each=" genre : ${genreList}">
-            <td th:text="${genre.genreId}"></td>
-            <td th:text="${genre.genreName}"></td>
-            <td><a th:href="@{/deletegenre/{id}(id=${genre.genreId})}">Delete</a></td>
-        </tr>
-    </table>
+                <h3>Genres</h3>
 
-    <h3>Subgenres</h3>
+                <table id="list" class="mdl-data-table mdl-js-data-table">
+                    <thead>
+                    <tr>
+                        <th class="mdl-data-table__cell--non-numeric">Genre ID</th>
+                        <th class="mdl-data-table__cell--non-numeric">Genre name</th>
+                        <th class="mdl-data-table__cell--non-numeric">Actions</th>
+                    </tr>
+                    </thead>
 
-    <table class="list">
+                    <tr th:each=" genre : ${genreList}">
+                        <td th:text="${genre.genreId}" class="mdl-data-table__cell--non-numeric"></td>
+                        <td th:text="${genre.genreName}" class="mdl-data-table__cell--non-numeric"></td>
+                        <td><a th:href="@{/deletegenre/{id}(id=${genre.genreId})}"
+                               class="mdl-data-table__cell--non-numeric">Delete</a></td>
+                    </tr>
+                </table>
 
-        <thead>
-        <tr>
-            <th>Subgenre ID</th>
-            <th>Subgenre name</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
+                    <a id="button" href="/addgenre"
+                       class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Add a new
+                        genre</a>
 
-        <tr th:each=" subgenre : ${subgenreList}">
-            <td th:text="${subgenre.subgenreId}"></td>
-            <td th:text="${subgenre.subgenreName}"></td>
-            <td><a th:href="@{/deletesubgenre/{id}(id=${subgenre.subgenreId})}">Delete</a></td>
-        </tr>
+                </div>
+                <div style="width: 50%; float: left">
+                <h3>Subgenres</h3>
 
-    </table>
+                <table id="list" class="mdl-data-table mdl-js-data-table">
 
-    <a href="/addgenre">Add a new genre</a>
+                    <thead>
+                    <tr>
+                        <th class="mdl-data-table__cell--non-numeric">Subgenre ID</th>
+                        <th class="mdl-data-table__cell--non-numeric">Subgenre name</th>
+                        <th class="mdl-data-table__cell--non-numeric">Actions</th>
+                    </tr>
+                    </thead>
 
-    <a>Add a new subgenre (Under progress)</a>
+                    <tr th:each=" subgenre : ${subgenreList}">
+                        <td th:text="${subgenre.subgenreId}" class="mdl-data-table__cell--non-numeric"></td>
+                        <td th:text="${subgenre.subgenreName}"
+                            class="mdl-data-table__cell--non-numeric"></td>
+                        <td><a th:href="@{/deletesubgenre/{id}(id=${subgenre.subgenreId})}">Delete</a></td>
+                    </tr>
 
-</div>
+                </table>
+
+                    <a id="button"
+                       class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Add a new
+                        subgenre (Under progress)</a>
+
+                </div>
+
+            </div>
+        </div>
 
 </body>
 </html>

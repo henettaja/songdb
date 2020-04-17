@@ -6,43 +6,68 @@
     <title>All songs</title>
 
     <link rel="stylesheet" href="/globalstyles.css/"/>
-    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.red-amber.min.css" />
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.red-amber.min.css"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
 
     <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 </head>
 <body>
 
-    <div id="wrapper">
-
-        <h3>All songs</h3>
-
-        <table class="list">
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Artist</th>
-                    <th>Album</th>
-                    <th>Subgenre</th>
-                    <th>Genre</th>
-                    <th colspan="2" style="text-align: center">Actions</th>
-                </tr>
-            </thead>
-
-            <tr th:each=" Song : ${songList}">
-                <td th:text="${Song.name}"></td>
-                <td th:text="${Song.artist}"></td>
-                <td th:text="${Song.album}"></td>
-                <td th:text="${Song.subgenre}"></td>
-                <td th:text="${Song.genre}"></td>
-                <td><a th:href="@{/editsong/{id}(id=${Song.songId})}">Edit</a></td>
-                <td><a th:href="@{/deletesong/{id}(id=${Song.songId})}">Delete</a></td>
-            </tr>
-        </table>
-
-        <a href="/addsong">Add a title</a>
-
+<!-- Always shows a header, even in smaller screens. -->
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
+            <!-- Title -->
+            <span class="mdl-layout-title">Song database app</span>
+            <!-- Add spacer, to align navigation to the right -->
+            <div class="mdl-layout-spacer"></div>
+        </div>
+    </header>
+    <div class="mdl-layout__drawer">
+        <span class="mdl-layout-title">Menu</span>
+        <nav class="mdl-navigation">
+            <a class="mdl-navigation__link" href="/index">Home page</a>
+            <a class="mdl-navigation__link" href="/genrelist">Genres</a>
+            <a class="mdl-navigation__link" href="/songlist">Songs</a>
+        </nav>
     </div>
+    <main class="mdl-layout__content">
+        <div class="page-content">
+
+            <div id="wrapper">
+
+                <h3>All songs</h3>
+
+                <table id="list" class="mdl-data-table mdl-js-data-table">
+                    <thead>
+                    <tr>
+                        <th class="mdl-data-table__cell--non-numeric">Title</th>
+                        <th class="mdl-data-table__cell--non-numeric">Artist</th>
+                        <th class="mdl-data-table__cell--non-numeric">Album</th>
+                        <th class="mdl-data-table__cell--non-numeric">Subgenre</th>
+                        <th class="mdl-data-table__cell--non-numeric">Genre</th>
+                        <th colspan="2" style="text-align: center" class="mdl-data-table__cell--non-numeric">Actions
+                        </th>
+                    </tr>
+                    </thead>
+
+                    <tr th:each=" Song : ${songList}">
+                        <td th:text="${Song.name}" class="mdl-data-table__cell--non-numeric"></td>
+                        <td th:text="${Song.artist}" class="mdl-data-table__cell--non-numeric"></td>
+                        <td th:text="${Song.album}" class="mdl-data-table__cell--non-numeric"></td>
+                        <td th:text="${Song.subgenre}" class="mdl-data-table__cell--non-numeric"></td>
+                        <td th:text="${Song.genre}" class="mdl-data-table__cell--non-numeric"></td>
+                        <td><a th:href="@{/editsong/{id}(id=${Song.songId})}">Edit</a></td>
+                        <td><a th:href="@{/deletesong/{id}(id=${Song.songId})}">Delete</a></td>
+                    </tr>
+                </table>
+
+                <a id="button" href="/addsong"
+                   class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Add a
+                    title</a>
+
+            </div>
+        </div>
 
 </body>
 </html>

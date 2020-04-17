@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Song app</title>
+
+    <link rel="stylesheet" href="/genrestyles.css/"/>
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.red-amber.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+</head>
+<body>
+
+<!-- Always shows a header, even in smaller screens. -->
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
+            <!-- Title -->
+            <span class="mdl-layout-title">Song database app</span>
+            <!-- Add spacer, to align navigation to the right -->
+            <div class="mdl-layout-spacer"></div>
+        </div>
+    </header>
+    <div class="mdl-layout__drawer">
+        <span class="mdl-layout-title">Menu</span>
+        <nav class="mdl-navigation">
+            <a class="mdl-navigation__link" href="/index">Home page</a>
+            <a class="mdl-navigation__link" href="/genrelist">Genres</a>
+            <a class="mdl-navigation__link" href="/songlist">Songs</a>
+        </nav>
+    </div>
+    <main class="mdl-layout__content">
+        <div class="page-content">
+            <div id="wrapper">
+
+                <h3>Welcome to the song repository app</h3>
+
+                <p>Here your can save and categorize your music to genres <br>
+                    that you can specify completely by yourself. <br> </p>
+                <p>On the genre and song pages you can edit and delete current titles/genres as well as create new ones</p>
+                <p>You can navigate to different parts of the application through the drawer menu that you can <br>
+                    open from the top-left corner.</p>
+
+                <a id="button" href="/genrelist" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Genres</a>
+
+                <a id="button" href="/songlist" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Songs</a>
+
+            </div>
+        </div>
+    </main>
+</div>
+
+</body>
+</html>

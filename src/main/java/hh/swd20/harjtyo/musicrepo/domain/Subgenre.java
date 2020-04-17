@@ -5,11 +5,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
 public class Subgenre {
 
+    @NotNull (message = "Subgenre name cannot be empty")
+    @Size(min = 1, max = 30, message = "Subgenre's name must be between 1 and 30 characters long")
     private String subgenreName;
 
     //A genre can have multiple subgenres

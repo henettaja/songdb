@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>Edit title</title>
 
-    <link rel="stylesheet" href="globalstyles.css">
+    <link rel="stylesheet" href="/globalstyles.css">
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.red-amber.min.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
 
@@ -18,50 +18,95 @@
 </head>
 <body>
 
-<div id="wrapper">
-
-    <h3>Edit title</h3>
-
-    <form th:object="${song}" th:action="@{../savesong}" action="#" method="post">
-
-        <input type="hidden" th:field="*{songId}"> <br>
-
-        <div>
-            <label for="title">Title</label><input type="text" id="title" th:field="*{name}">
+<!-- Always shows a header, even in smaller screens. -->
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
+            <!-- Title -->
+            <span class="mdl-layout-title">Song database app</span>
+            <!-- Add spacer, to align navigation to the right -->
+            <div class="mdl-layout-spacer"></div>
         </div>
+    </header>
+    <div class="mdl-layout__drawer">
+        <span class="mdl-layout-title">Menu</span>
+        <nav class="mdl-navigation">
+            <a class="mdl-navigation__link" href="/index">Home page</a>
+            <a class="mdl-navigation__link" href="/genrelist">Genres</a>
+            <a class="mdl-navigation__link" href="/songlist">Songs</a>
+        </nav>
+    </div>
+    <main class="mdl-layout__content">
+        <div class="page-content">
 
-        <div>
-            <label for="artist">Artist</label><input type="text" id="artist" th:field="*{artist}">
+            <div id="wrapper">
+
+                <h3>Edit title</h3>
+
+                <form th:object="${song}" th:action="@{/updatesong}" action="#" method="post">
+
+                    <input type="hidden" th:field="*{songId}"> <br>
+
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <label for="title" class="mdl-textfield__label">Title</label><input class="mdl-textfield__input" type="text" id="title" th:field="*{name}">
+                    </div>
+                    <div class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Song name error</div>
+
+
+                    <br>
+
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <label for="artist" class="mdl-textfield__label">Artist</label><input class="mdl-textfield__input" type="text" id="artist" th:field="*{artist}">
+                    </div>
+                    <div class="error" th:if="${#fields.hasErrors('artist')}" th:errors="*{artist}">Artist name error</div>
+
+
+                    <br>
+
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <label for="album" class="mdl-textfield__label">Album</label><input class="mdl-textfield__input" type="text" id="album" th:field="*{album}">
+                    </div>
+                    <div class="error" th:if="${#fields.hasErrors('album')}" th:errors="*{album}">Album name error</div>
+
+
+                    <br>
+
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <select id="genre" th:field="*{genre}" class="mdl-textfield__input">
+                            <option value=""></option>
+                            <option th:each="mainGenre : ${genres}"
+                                    th:value="${mainGenre.genreId}"
+                                    th:text="${mainGenre.genreName}"></option>
+                        </select>
+                        <label for="genre" class="mdl-textfield__label">Choose the genre</label>
+                    </div>
+                    <div class="error" th:if="${#fields.hasErrors('genre')}" th:errors="*{genre}">Song name error</div>
+
+
+                    <br>
+
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <select id="subgenre" th:field="*{subgenre}" class="mdl-textfield__input">
+                            <option value=""></option>
+                            <option th:each="subgenre : ${subgenres}"
+                                    th:value="${subgenre.subgenreId}"
+                                    th:text="${subgenre.subgenreName}"></option>
+                        </select>
+                        <label for="subgenre" class="mdl-textfield__label">Choose the subgenre (optional)</label>
+                    </div>
+
+                    <br>
+
+                    <button id="button" type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Save the title</button>
+
+                </form>
+
+                <a id="button" href="/songlist" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary">Cancel</a>
+
+            </div>
+
         </div>
-
-        <div>
-            <label for="album">Album</label><input type="text" id="album" th:field="*{album}">
-        </div>
-
-        <div>
-            <select id="genre" th:field="*{genre}">
-                <option value="">Choose the genre</option>
-                <option th:each="mainGenre : ${genres}"
-                        th:value="${mainGenre.genreId}"
-                        th:text="${mainGenre.genreName}"></option>
-            </select>
-            <label for="genre">Genre</label>
-        </div>
-
-        <div>
-            <select id="subgenre" th:field="*{subgenre}">
-                <option value="">Choose the subgenre</option>
-                <option th:each="subgenre : ${subgenres}"
-                        th:value="${subgenre.subgenreId}"
-                        th:text="${subgenre.subgenreName}"></option>
-            </select>
-            <label for="subgenre">Subgenre</label>
-        </div>
-
-        <button type="submit">Save the title</button>
-
-    </form>
-
+    </main>
 </div>
 
 </body>

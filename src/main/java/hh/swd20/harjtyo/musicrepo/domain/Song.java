@@ -5,11 +5,23 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Song {
 
-    private String name, artist, album;
+    @NotNull(message = "Song title cannot be empty")
+    @Size(min = 1, max = 50, message = "A song title must be between 1 and 50 characters long")
+    private String name;
+
+    @NotNull(message = "Song's artist field cannot be empty")
+    @Size(min = 1, max = 30, message = "Artists name must be between 1 and 30 characters long")
+    private String artist;
+
+    @NotNull(message = "Album's name cannot be empty")
+    @Size(min = 1, max = 50, message = "Album's name must be between 1 and 50 characters long")
+    private String album;
 
     //A subgenre can have multiple songs
     @ManyToOne
@@ -20,6 +32,7 @@ public class Song {
     @ManyToOne
     @JsonManagedReference
     @JoinColumn
+    @NotNull (message = "Song must have a genre")
     private Genre genre;
 
     //Automatically generating iterating id values

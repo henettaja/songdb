@@ -3,7 +3,7 @@
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
-    <title>All songs</title>
+    <title>All sessions</title>
 
     <link rel="stylesheet" type="text/css" href="/css/globalstyles.css"/>
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.red-amber.min.css"/>
@@ -48,41 +48,29 @@
 
             <div id="wrapper">
 
-                <h3>All songs</h3>
+                <h3>All sessions</h3>
 
                 <table id="list" class="mdl-data-table mdl-js-data-table">
                     <thead>
                     <tr>
-                        <th class="mdl-data-table__cell--non-numeric">Title</th>
-                        <th class="mdl-data-table__cell--non-numeric">Artist</th>
-                        <th class="mdl-data-table__cell--non-numeric">Album</th>
-                        <th class="mdl-data-table__cell--non-numeric">Subgenre</th>
-                        <th class="mdl-data-table__cell--non-numeric">Genre</th>
-                        <th colspan="2" style="text-align: center"
+                        <th class="mdl-data-table__cell--non-numeric">Session ID</th>
+                        <th class="mdl-data-table__cell--non-numeric">Username</th>
+                        <th style="text-align: center"
                             class="mdl-data-table__cell--non-numeric">Actions
                         </th>
                     </tr>
                     </thead>
 
-                    <tr th:each=" Song : ${songList}">
-                        <td th:text="${Song.name}" class="mdl-data-table__cell--non-numeric"></td>
-                        <td th:text="${Song.artist}" class="mdl-data-table__cell--non-numeric"></td>
-                        <td th:text="${Song.album}" class="mdl-data-table__cell--non-numeric"></td>
-                        <td th:text="${Song.subgenre}" class="mdl-data-table__cell--non-numeric"></td>
-                        <td th:text="${Song.genre}" class="mdl-data-table__cell--non-numeric"></td>
-                        <td>
-                            <div th:if="!${#request.userPrincipal}">Authentication needed</div>
-                            <a sec:authorize="hasAuthority('ADMIN')"
-                               th:href="@{/editsong/{id}(id=${Song.songId})}">Edit</a>
-                        </td>
-                        <td><a sec:authorize="hasAnyAuthority('USER','ADMIN')"
-                               th:href="@{/deletesong/{id}(id=${Song.songId})}">Delete</a></td>
+                    <tr th:each=" user : ${sessionlist}">
+                        <td th:text="${user.id}" class="mdl-data-table__cell--non-numeric"></td>
+                        <td th:text="${user.username}" class="mdl-data-table__cell--non-numeric"></td>
+                        <td><a sec:authorize="hasAuthority('ADMIN')"
+                               th:href="@{/deletesession/{id}(id=${user.id})}">Delete</a></td>
                     </tr>
                 </table>
 
-                <a id="button" href="/addsong"
-                   class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Add a
-                    title</a>
+                <a id="button" href="/signup"
+                   class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Add a new user</a>
 
             </div>
         </div>

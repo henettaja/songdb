@@ -2,8 +2,10 @@ package hh.swd20.harjtyo.musicrepo.webcontroller;
 
 import hh.swd20.harjtyo.musicrepo.domain.Genre;
 import hh.swd20.harjtyo.musicrepo.domain.GenreRepository;
+import hh.swd20.harjtyo.musicrepo.domain.Subgenre;
 import hh.swd20.harjtyo.musicrepo.domain.SubgenreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -36,23 +38,25 @@ public class GenreController {
 
     //The endpoint basically calls this method
     @RequestMapping(value = "/addgenre", method = RequestMethod.GET)
-    public String addGenre (Model model) {
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
+        public String addGenre (Model model) {
 
         model.addAttribute("genre", new Genre());
 
-        return "addgenre"; //addgenre.html
+        return "/user/addgenre"; //addgenre.html
 
     }
 
     //The endpoint basically calls this method
     @RequestMapping(value = "/savegenre", method = RequestMethod.POST)
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     public String saveGenre (@Valid Genre genre, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
 
             System.out.println(bindingResult);
 
-            return "/addgenre"; //Redirects back /addgenre endpoint and calls the addGenre method if form contains errors
+            return "/user/addgenre"; //Redirects back /addgenre endpoint and calls the addGenre method if form contains errors
         }
         genreRepository.save(genre);
 
@@ -61,21 +65,52 @@ public class GenreController {
     }
 
     //The endpoint basically calls this method
+    @RequestMapping(value = "/addsubgenre", method = RequestMethod.GET)
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
+    public String addSubgenre (Model model) {
+
+        model.addAttribute("subgenre", new Subgenre());
+        model.addAttribute("genres",genreRepository.findAll());
+
+        return "/user/addsubgenre"; //addgenre.html
+
+    }
+
+    //The endpoint basically calls this method
+    @RequestMapping(value = "/savesubgenre", method = RequestMethod.POST)
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
+    public String saveSubgenre (@Valid Subgenre subgenre, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+
+            System.out.println(bindingResult);
+
+            return "/user/addsubgenre"; //Redirects back /addgenre endpoint and calls the addGenre method if form contains errors
+        }
+        subgenreRepository.save(subgenre);
+
+        return "redirect:genrelist"; //Redirects to /genrelist endpoint and calls the genreList method
+
+    }
+
+    //The endpoint basically calls this method
     @RequestMapping(value = "/deletegenre/{id}", method = RequestMethod.GET)
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String deleteGenre (@PathVariable("id") Long genreId) {
 
         genreRepository.deleteById(genreId);
 
-        return "redirect:../genrelist";
+        return "redirect:/genrelist";
     }
 
     //The endpoint basically calls this method
     @RequestMapping(value = "/deletesubgenre/{id}", method = RequestMethod.GET)
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     public String deleteSubgenre (@PathVariable("id") Long subgenreId) {
 
         subgenreRepository.deleteById(subgenreId);
 
-        return "redirect:../genrelist";
+        return "redirect:/genrelist";
     }
 
 }

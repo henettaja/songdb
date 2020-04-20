@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Song app</title>
+
+    <link rel="stylesheet" type="text/css" href="/css/globalstyles.css/"/>
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.red-amber.min.css"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+</head>
+<body>
+
+<!-- Always shows a header, even in smaller screens. -->
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
+            <!-- Title -->
+            <span class="mdl-layout-title">Song database app</span>
+            <!-- Add spacer, to align navigation to the right -->
+            <div class="mdl-layout-spacer"></div>
+            <!-- Session information-->
+            <h6 style="margin-top: 10px; margin-bottom: 10px; margin-right: 10px" sec:authorize="isAuthenticated()"
+                th:inline="text">User: [[${#httpServletRequest.remoteUser}]]</h6>
+            <form method="post" th:action="@{/logout}">
+                <button sec:authorize="isAuthenticated()"
+                        class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent">Sign out
+                </button>
+            </form>
+        </div>
+    </header>
+    <div class="mdl-layout__drawer">
+        <span class="mdl-layout-title">Menu</span>
+        <nav class="mdl-navigation">
+            <a class="mdl-navigation__link" href="/index">Home page</a>
+            <a class="mdl-navigation__link" href="/genrelist">Genres</a>
+            <a class="mdl-navigation__link" href="/songlist">Songs</a>
+            <a style="color: orangered" sec:authorize="hasAuthority('ADMIN')" class="mdl-navigation__link"
+               href="/sessionlist">User sessions (Admin only)</a>
+        </nav>
+    </div>
+    <main class="mdl-layout__content">
+        <div class="page-content">
+            <div style="text-align: center " class="mdl-grid">
+
+                <div class="mdl-cell mdl-cell--4-col graybox"></div>
+
+                <div style="margin-top: 70px" class="mdl-cell mdl-cell--4-col graybox">
+
+                    <h1 style="color: orangered">Sorry :( <br> Access denied</h1>
+
+                    <p>Unfortunately you do not have the authorization to access this page.</p>
+
+                </div>
+
+                <div class="mdl-cell mdl-cell--4-col graybox"></div>
+
+            </div>
+    </main>
+</div>
+
+</body>
+</html>

@@ -3,17 +3,18 @@
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
-    <title>Add a title</title>
+    <title>Edit title</title>
 
-    <link rel="stylesheet" href="/globalstyles.css/"/>
-    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.red-amber.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/globalstyles.css">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.red-amber.min.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
 
     <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-    <script
+    <script th:inline="javascript"
             src="https://code.jquery.com/jquery-3.4.1.min.js"
             integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-            crossorigin="anonymous"></script>
+            crossorigin="anonymous">
+    </script>
 </head>
 <body>
 
@@ -25,6 +26,9 @@
             <span class="mdl-layout-title">Song database app</span>
             <!-- Add spacer, to align navigation to the right -->
             <div class="mdl-layout-spacer"></div>
+            <!-- Session information-->
+            <h6 style="margin-top: 10px; margin-bottom: 10px; margin-right: 10px" sec:authorize="isAuthenticated()" th:inline="text">User: [[${#httpServletRequest.remoteUser}]]</h6>
+            <form method="post" th:action="@{/logout}"><button sec:authorize="isAuthenticated()" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent">Sign out</button></form>
         </div>
     </header>
     <div class="mdl-layout__drawer">
@@ -33,6 +37,8 @@
             <a class="mdl-navigation__link" href="/index">Home page</a>
             <a class="mdl-navigation__link" href="/genrelist">Genres</a>
             <a class="mdl-navigation__link" href="/songlist">Songs</a>
+            <a style="color: orangered" sec:authorize="hasAuthority('ADMIN')" class="mdl-navigation__link"
+               href="/sessionlist">User sessions (Admin only)</a>
         </nav>
     </div>
     <main class="mdl-layout__content">
@@ -40,13 +46,14 @@
 
             <div id="wrapper">
 
-                <h3>Add a title</h3>
+                <h3>Edit title</h3>
 
-                <form th:object="${song}" th:action="@{savesong}" action="#" method="post">
+                <form th:object="${song}" th:action="@{/updatesong}" action="#" method="post">
+
+                    <input type="hidden" th:field="*{songId}"> <br>
 
                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                        <label for="title" class="mdl-textfield__label">Title</label><input
-                            class="mdl-textfield__input" type="text" id="title" th:field="*{name}">
+                        <label for="title" class="mdl-textfield__label">Title</label><input class="mdl-textfield__input" type="text" id="title" th:field="*{name}">
                     </div>
                     <div class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Song name error</div>
 
@@ -54,8 +61,7 @@
                     <br>
 
                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                        <label for="artist" class="mdl-textfield__label">Artist</label><input
-                            class="mdl-textfield__input" type="text" id="artist" th:field="*{artist}">
+                        <label for="artist" class="mdl-textfield__label">Artist</label><input class="mdl-textfield__input" type="text" id="artist" th:field="*{artist}">
                     </div>
                     <div class="error" th:if="${#fields.hasErrors('artist')}" th:errors="*{artist}">Artist name error</div>
 
@@ -63,10 +69,10 @@
                     <br>
 
                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                        <label for="album" class="mdl-textfield__label">Album</label><input
-                            class="mdl-textfield__input" type="text" id="album" th:field="*{album}">
+                        <label for="album" class="mdl-textfield__label">Album</label><input class="mdl-textfield__input" type="text" id="album" th:field="*{album}">
                     </div>
                     <div class="error" th:if="${#fields.hasErrors('album')}" th:errors="*{album}">Album name error</div>
+
 
                     <br>
 
@@ -81,32 +87,33 @@
                     </div>
                     <div class="error" th:if="${#fields.hasErrors('genre')}" th:errors="*{genre}">Song name error</div>
 
+
                     <br>
 
                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                         <select id="subgenre" th:field="*{subgenre}" class="mdl-textfield__input">
                             <option value=""></option>
+                            <option th:each="subgenre : ${subgenres}"
+                                    th:value="${subgenre.subgenreId}"
+                                    th:text="${subgenre.subgenreName}"></option>
                         </select>
                         <label for="subgenre" class="mdl-textfield__label">Choose the subgenre (optional)</label>
                     </div>
 
                     <br>
 
-                    <button id="button" type="submit"
-                            class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-                        Save the title
-                    </button>
+                    <button id="button" type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Save the title</button>
 
                 </form>
 
-                <a id="button" href="/songlist"
-                   class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary">Cancel</a>
+                <a id="button" href="/songlist" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary">Cancel</a>
 
             </div>
 
         </div>
     </main>
 </div>
+
 </body>
 <script th:inline="javascript">
     /*<![CDATA[*/
@@ -121,13 +128,13 @@
 
     let selectSubgenreElement = $('#subgenre');
 
-    function filtersubgenre() {
-        var selectedGenre = $("select#genre").children("option:selected").val();
+    function filtersubgenre () {
+        var selectedGenre =  $("select#genre").children("option:selected").val();
         console.log("Genre currently selected: " + selectedGenre);
 
         selectSubgenreElement.find('option').not(':first').remove();
 
-        for (let o = 0; o < subgenres.length; o++) {
+        for (let o=0; o<subgenres.length; o++) {
             var subgenreparentId = subgenres[o].mainGenre.genreId;
 
             if (subgenreparentId == selectedGenre) {

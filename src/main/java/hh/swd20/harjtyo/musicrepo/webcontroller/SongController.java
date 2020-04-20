@@ -5,6 +5,7 @@ import hh.swd20.harjtyo.musicrepo.domain.Song;
 import hh.swd20.harjtyo.musicrepo.domain.SongRepository;
 import hh.swd20.harjtyo.musicrepo.domain.SubgenreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -46,24 +47,26 @@ public class SongController {
     //Routing endpoint /addsong to addsong.html thymeleaf template in /resources/templates/
     //The endpoint basically calls this method
     @RequestMapping(value = "/addsong", method = RequestMethod.GET) //Using GET method
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     public String addSong (Model model) {
 
         model.addAttribute("song", new Song());
         model.addAttribute("subgenres", subgenreRepository.findAll());
         model.addAttribute("genres", genreRepository.findAll());
 
-        return "addsong"; //addsong.html
+        return "/user/addsong"; //addsong.html
     }
 
     //Endpoing /save saves the song to the database and redirects to /booklist endpoint
     //The endpoint basically calls this method
     @RequestMapping(value = "/savesong", method = RequestMethod.POST) //Using POST method
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     public String saveSong (@Valid Song song, BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("genres",genreRepository.findAll());
             model.addAttribute("subgenres", subgenreRepository.findAll());
-            return "/addsong";
+            return "/user/addsong";
         }
         songRepository.save(song);
 
@@ -72,7 +75,8 @@ public class SongController {
 
     //The endpoint basically calls this method
     @RequestMapping(value = "/deletesong/{id}", method = RequestMethod.GET)
-    public String deleteGenre (@PathVariable("id") Long songId) {
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public String deleteSong (@PathVariable("id") Long songId) {
 
         songRepository.deleteById(songId);
 
@@ -81,17 +85,19 @@ public class SongController {
 
     //The endpoint basically calls this method
     @RequestMapping(value = "/editsong/{id}", method = RequestMethod.GET)
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String editsong (@PathVariable ("id") Long songId, Model model) {
 
         model.addAttribute("song", songRepository.findById(songId));
         model.addAttribute("subgenres", subgenreRepository.findAll());
         model.addAttribute("genres", genreRepository.findAll());
 
-        return "editsong"; //editsong.html
+        return "/admin/editsong"; //editsong.html
     }
 
     //The endpoint basically calls this method
     @RequestMapping(value = "/updatesong", method = RequestMethod.POST) //Using POST method
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String updateSong (@Valid Song song, BindingResult bindingResult, RedirectAttributes attributes, Model model) {
 
         attributes.addAttribute("songId", song.getSongId());
@@ -99,7 +105,7 @@ public class SongController {
         if (bindingResult.hasErrors()) {
             model.addAttribute("genres",genreRepository.findAll());
             model.addAttribute("subgenres", subgenreRepository.findAll());
-            return "/editsong";
+            return "/admin/editsong";
         }
         songRepository.save(song);
 

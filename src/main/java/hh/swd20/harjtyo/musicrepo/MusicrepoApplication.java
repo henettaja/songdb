@@ -11,8 +11,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import java.util.List;
-
 @SpringBootApplication
 public class MusicrepoApplication {
 
@@ -25,9 +23,13 @@ public class MusicrepoApplication {
 	@Bean
 	public CommandLineRunner musicdemo (SongRepository songRepository,
 										SubgenreRepository subgenreRepository,
-										GenreRepository genreRepository) {
+										GenreRepository genreRepository,
+										SessionRepository sessionRepository) {
 		return(args) -> {
-			log.info("Saving some songs, subgenres and genres...");
+
+			//Not adding anything in CommandLineRunner after initializing PostgreSQL
+
+			/*log.info("Saving some songs, subgenres and genres...");
 
 			genreRepository.save(new Genre("Rock"));
 			genreRepository.save(new Genre("Electronic"));
@@ -59,10 +61,18 @@ public class MusicrepoApplication {
 			songRepository.save(new Song("Avalon", "View", "Avalon EP",
 												(genreRepository.findByGenreName("Rap").get(0))));
 
-			//log.info("Testing...");
+			log.info("Adding users...");
 
-			//System.out.println(genreRepository.findByGenreName("Pop").get(0).getSubgenres());
 
+			Session user = new Session("user",
+					"$2a$10$6aMN8QdoTSp/eU3jSVvIXOS4vsV57zRrTwjXp800jQtFtjfMat9J6", "USER");
+			Session admin = new Session("admin",
+					"$2a$10$HGUlXU2tS8xsorCEdF4CC.tjUF8vTKveyry6hjs.qql9jcPUSloD6", "ADMIN");
+			Session master = new Session("Henri",
+					"$2a$10$HGUlXU2tS8xsorCEdF4CC.tjUF8vTKveyry6hjs.qql9jcPUSloD6", "ADMIN");
+			sessionRepository.save(user);
+			sessionRepository.save(admin);
+			sessionRepository.save(master);*/
 		};
 	}
 

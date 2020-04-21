@@ -72,7 +72,7 @@ public class GenreController {
         model.addAttribute("subgenre", new Subgenre());
         model.addAttribute("genres",genreRepository.findAll());
 
-        return "/user/addsubgenre"; //addgenre.html
+        return "user/addsubgenre"; //addgenre.html
 
     }
 

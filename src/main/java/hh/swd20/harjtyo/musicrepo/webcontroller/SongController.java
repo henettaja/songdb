@@ -34,6 +34,12 @@ public class SongController {
         return "index"; //songlist.html
     }
 
+    @RequestMapping(value = "/", method = RequestMethod.GET) //Using GET method
+    public String indexfix () {
+
+        return "redirect:/index"; //songlist.html
+    }
+
     //Routing endpoint /songlist to songlist.html thymeleaf template in /resources/templates/
     //The endpoint basically calls this method
     @RequestMapping(value = "/songlist", method = RequestMethod.GET) //Using GET method

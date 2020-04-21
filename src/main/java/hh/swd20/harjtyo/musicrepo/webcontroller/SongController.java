@@ -54,7 +54,7 @@ public class SongController {
         model.addAttribute("subgenres", subgenreRepository.findAll());
         model.addAttribute("genres", genreRepository.findAll());
 
-        return "/user/addsong"; //addsong.html
+        return "user/addsong"; //addsong.html
     }
 
     //Endpoing /save saves the song to the database and redirects to /booklist endpoint
@@ -66,7 +66,7 @@ public class SongController {
         if (bindingResult.hasErrors()) {
             model.addAttribute("genres",genreRepository.findAll());
             model.addAttribute("subgenres", subgenreRepository.findAll());
-            return "/user/addsong";
+            return "user/addsong";
         }
         songRepository.save(song);
 
@@ -92,7 +92,7 @@ public class SongController {
         model.addAttribute("subgenres", subgenreRepository.findAll());
         model.addAttribute("genres", genreRepository.findAll());
 
-        return "/admin/editsong"; //editsong.html
+        return "admin/editsong"; //editsong.html
     }
 
     //The endpoint basically calls this method
@@ -105,7 +105,7 @@ public class SongController {
         if (bindingResult.hasErrors()) {
             model.addAttribute("genres",genreRepository.findAll());
             model.addAttribute("subgenres", subgenreRepository.findAll());
-            return "/admin/editsong";
+            return "admin/editsong";
         }
         songRepository.save(song);
 

@@ -70,45 +70,60 @@
 
                 <div class="mdl-cell mdl-cell--2-col graybox"></div>
 
-                <div style="margin-top: 145px; text-align: center" class="mdl-cell mdl-cell--3-col graybox">
+                <div style="margin-top: 145px" class="mdl-cell mdl-cell--3-col graybox">
 
                     <div class="demo-card-wide mdl-card mdl-shadow--8dp card-me">
-                        <h3 align="center">Sign up</h3>
+                        <div align="center">
+                            <h3 align="center">Sign up</h3>
 
-                        <form autocomplete="off" th:object="${signupform}" th:action="@{/saveuser}" action="#" method="post">
+                            <form autocomplete="off" th:object="${signupform}" th:action="@{/saveuser}" action="#"
+                                  method="post">
 
-                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                <input th:field="*{username}" class="mdl-textfield__input" type="text" id="username" name="username">
-                                <label class="mdl-textfield__label" for="username">Username</label>
-                                <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username error</p>
-                            </div>
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                    <input th:field="*{username}" class="mdl-textfield__input" type="text" id="username"
+                                           name="username">
+                                    <label class="mdl-textfield__label" for="username">Username</label>
+                                    <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username
+                                        error</p>
+                                </div>
 
-                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                <input th:field="*{password}" class="mdl-textfield__input" type="password" id="password" name="password">
-                                <label class="mdl-textfield__label" for="password">Password</label>
-                                <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error</p>
-                            </div>
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                    <input th:field="*{password}" class="mdl-textfield__input" type="password"
+                                           id="password" name="password">
+                                    <label class="mdl-textfield__label" for="password">Password</label>
+                                    <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password
+                                        error</p>
+                                </div>
 
-                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                <input th:field="*{passwordCheck}" class="mdl-textfield__input" type="password" id="passwordCheck" name="password">
-                                <label class="mdl-textfield__label" for="passwordCheck">Type password again</label>
-                                <p th:if="${#fields.hasErrors('passwordCheck')}" th:errors="*{passwordCheck}">Password
-                                    match error</p>
-                            </div>
-                            <button id="button" type="submit"
-                                    class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
-                                    name="signup-submit">
-                                Sign up
-                            </button>
-                        </form>
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                    <input th:field="*{passwordCheck}" class="mdl-textfield__input" type="password"
+                                           id="passwordCheck" name="password">
+                                    <label class="mdl-textfield__label" for="passwordCheck">Type password again</label>
+                                    <p th:if="${#fields.hasErrors('passwordCheck')}" th:errors="*{passwordCheck}">
+                                        Password
+                                        match error</p>
+                                </div>
+                                <button id="button" type="submit"
+                                        class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+                                        name="signup-submit">
+                                    Sign up
+                                </button>
+                            </form>
+
+                            <a style="margin-bottom: 20px" id="button"
+                               class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+                               name="cancel"
+                               href="/index">
+                                Cancel
+                            </a>
+
+                        </div>
 
                     </div>
 
+                    <div class="mdl-cell mdl-cell--2-col graybox"></div>
+
                 </div>
-
-                <div class="mdl-cell mdl-cell--2-col graybox"></div>
-
-            </div>
     </main>
 </div>
 

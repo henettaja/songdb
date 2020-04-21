@@ -43,7 +43,7 @@ public class SessionController {
 
         model.addAttribute("sessionlist", sessionRepository.findAll()); //saving all sessions to Model for use in thymeleaf
 
-        return "/admin/sessionlist"; //sessionlist.html
+        return "admin/sessionlist"; //sessionlist.html
     }
 
     @RequestMapping(value = "/deletesession/{id}", method = RequestMethod.GET)

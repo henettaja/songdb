@@ -43,7 +43,7 @@ public class GenreController {
 
         model.addAttribute("genre", new Genre());
 
-        return "/user/addgenre"; //addgenre.html
+        return "user/addgenre"; //addgenre.html
 
     }
 
@@ -56,7 +56,7 @@ public class GenreController {
 
             System.out.println(bindingResult);
 
-            return "/user/addgenre"; //Redirects back /addgenre endpoint and calls the addGenre method if form contains errors
+            return "user/addgenre"; //Redirects back /addgenre endpoint and calls the addGenre method if form contains errors
         }
         genreRepository.save(genre);
 
@@ -85,11 +85,11 @@ public class GenreController {
 
             System.out.println(bindingResult);
 
-            return "/user/addsubgenre"; //Redirects back /addgenre endpoint and calls the addGenre method if form contains errors
+            return "user/addsubgenre"; //Redirects back /addgenre endpoint and calls the addGenre method if form contains errors
         }
         subgenreRepository.save(subgenre);
 
-        return "redirect:genrelist"; //Redirects to /genrelist endpoint and calls the genreList method
+        return "redirect:/genrelist"; //Redirects to /genrelist endpoint and calls the genreList method
 
     }
 

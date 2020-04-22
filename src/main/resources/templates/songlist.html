@@ -72,10 +72,11 @@
                         <td th:text="${Song.genre}" class="mdl-data-table__cell--non-numeric"></td>
                         <td>
                             <div th:if="!${#request.userPrincipal}">Authentication needed</div>
+                            <div sec:authorize="hasAuthority('USER')">Admin only</div>
                             <a sec:authorize="hasAuthority('ADMIN')"
                                th:href="@{/editsong/{id}(id=${Song.songId})}">Edit</a>
                         </td>
-                        <td><a sec:authorize="hasAnyAuthority('USER','ADMIN')"
+                        <td><a sec:authorize="hasAuthority('ADMIN')"
                                th:href="@{/deletesong/{id}(id=${Song.songId})}">Delete</a></td>
                     </tr>
                 </table>

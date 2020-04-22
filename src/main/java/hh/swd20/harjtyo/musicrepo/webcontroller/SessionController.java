@@ -39,7 +39,7 @@ public class SessionController {
 
     @RequestMapping(value = "/sessionlist", method = RequestMethod.GET) //Using GET method
     @PreAuthorize("hasAuthority('ADMIN')")
-    public String showSessions (Model model) {
+    public String showSessions(Model model) {
 
         model.addAttribute("sessionlist", sessionRepository.findAll()); //saving all sessions to Model for use in thymeleaf
 
@@ -48,7 +48,7 @@ public class SessionController {
 
     @RequestMapping(value = "/deletesession/{id}", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('ADMIN')")
-    public String deleteSession (@PathVariable("id") Long sessionId) {
+    public String deleteSession(@PathVariable("id") Long sessionId) {
 
         sessionRepository.deleteById(sessionId);
 
@@ -56,7 +56,7 @@ public class SessionController {
     }
 
     @RequestMapping(value = "signup")
-    public String addSession(Model model){
+    public String addSession(Model model) {
         model.addAttribute("signupform", new SignUpForm());
         return "signup";
     }
@@ -69,8 +69,8 @@ public class SessionController {
      * @param bindingResult
      * @return
      */
-    @RequestMapping(value = "saveuser", method = RequestMethod.POST)
-    public String saveUser(@ModelAttribute("signupform") @Valid SignUpForm signupForm, BindingResult bindingResult) {
+    @RequestMapping(value = "/saveuser", method = RequestMethod.POST)
+    public String saveUser(@Valid @ModelAttribute("signupform") SignUpForm signupForm, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) { // validation errors
             if (signupForm.getPassword().equals(signupForm.getPasswordCheck())) { // check password match
                 String pwd = signupForm.getPassword();
@@ -81,20 +81,21 @@ public class SessionController {
                 newSession.setPasswordHash(hashPwd);
                 newSession.setUsername(signupForm.getUsername());
                 newSession.setRole("USER");
+
                 if (sessionRepository.findByUsername(signupForm.getUsername()) == null) { // Check if user exists
                     sessionRepository.save(newSession);
                 } else {
                     bindingResult.rejectValue("username", "err.username", "Username already exists");
                     return "signup";
                 }
-            } else {
-                bindingResult.rejectValue("passwordCheck", "err.passCheck", "Passwords do not match");
+                } else {
+                    bindingResult.rejectValue("passwordCheck", "err.passCheck", "Passwords do not match");
                 return "signup";
-            }
-            } else {
-            return "signup";
-            }
+                }
+                } else {
+                return "signup";
+                }
         return "redirect:/index";
-    }
+            }
 
 }

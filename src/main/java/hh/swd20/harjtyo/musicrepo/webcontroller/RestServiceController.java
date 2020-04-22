@@ -1,4 +1,4 @@
-package hh.swd20.kirjakauppa.tehtC24.webcontroller;
+package hh.swd20.harjtyo.musicrepo.webcontroller;
 
 import hh.swd20.harjtyo.musicrepo.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,6 @@ public class RestServiceController {
     public @ResponseBody List<Song> songRest() {
         return (List<Song>) songRepository.findAll();
     }
-
 
     @RequestMapping(value = "/genres", method = RequestMethod.GET)
     public @ResponseBody List<Genre> genreRest() {

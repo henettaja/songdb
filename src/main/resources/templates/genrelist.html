@@ -98,7 +98,7 @@
                                 class="mdl-data-table__cell--non-numeric"></td>
                             <td>
                                 <div th:if="!${#request.userPrincipal}">Authentication needed</div>
-                                <a sec:authorize="hasAnyAuthority('USER', 'ADMIN')"
+                                <a sec:authorize="hasAuthority('ADMIN')"
                                    th:href="@{/deletesubgenre/{id}(id=${subgenre.subgenreId})}">Delete</a></td>
                         </tr>
 
